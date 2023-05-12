@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build:ui": "rm -rf build && cd frontend && npm install && npm run build && cp -r build ..",
+    "build:ui": "npm run clean:win && npm run clean:lin && cd frontend && npm install && npm run build && npm run move:win && npm run move:win",
+    "clean:win": "node -e \"if (process.platform === 'win32') process.exit(1)\" || , if exist build rmdir /Q /S build",
+    "clean:lin": "node -e \"if (process.platform !== 'win32') process.exit(1)\" || rm -rf build",
     "start-prod": "cross-env NODE_ENV=production node index.js",
     "dev": "cross-env NODE_ENV=development nodemon index.js",
     "test": "cross-env NODE_ENV=test jest --verbose --runInBand",
