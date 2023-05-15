@@ -7,6 +7,7 @@ const api = supertest(app)
 const Person = require('../models/person')
 
 beforeEach(async () => {
+  jest.setTimeout(60000)
   await Person.deleteMany({})
   const personObjects = helper.initialPersons
     .map(person => new Person(person))
