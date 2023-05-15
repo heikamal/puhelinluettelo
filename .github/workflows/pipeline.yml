@@ -16,7 +16,7 @@ jobs:
         with:
           node-version: '16'
       - name: Install dependencies
-        run: npm install
+        run: npm install && npm install --save-dev jest supertest cypress @testing-library/jest-dom @testing-library/react eslint eslint-plugin-cypress eslint-plugin-jest
       - name: Build
         run: npm run build:ui
       - name: Check style
