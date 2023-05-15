@@ -7,19 +7,18 @@ const api = supertest(app)
 const Person = require('../models/person')
 
 beforeEach(async () => {
-  jest.setTimeout(60000)
   await Person.deleteMany({})
   const personObjects = helper.initialPersons
     .map(person => new Person(person))
   const promiseArray = personObjects.map(person => person.save())
   await Promise.all(promiseArray)
-})
+}, 60000)
 
 test('all persons are returned', async () => {
   const response = await api.get('/api/persons')
 
   expect(response.body).toHaveLength(helper.initialPersons.length)
-})
+}, 60000)
 
 test('a specific person is within the response', async () => {
   const response = await api.get('/api/persons')
@@ -28,7 +27,7 @@ test('a specific person is within the response', async () => {
   expect(contents).toContain(
     'Hagrid'
   )
-})
+},60000)
 
 test('a valid number can be added', async () => {
   const newPerson = {
@@ -49,7 +48,7 @@ test('a valid number can be added', async () => {
   expect(contents).toContain(
     'Testi Testinen'
   )
-})
+}, 60000)
 
 test('a person without number is not added', async () => {
   const newPerson = {
@@ -61,8 +60,8 @@ test('a person without number is not added', async () => {
   const personsAtEnd = await helper.personsInDb()
 
   expect(personsAtEnd).toHaveLength(helper.initialPersons.length)
-})
+}, 60000)
 
 afterAll(async () => {
   await mongoose.connection.close()
-})
+}, 60000)
