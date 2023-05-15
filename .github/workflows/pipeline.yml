@@ -23,6 +23,7 @@ jobs:
         run: npm run lint
       - name: Run Backend tests
         run: npm run test:api
+        shell: bash
         env:
           NODE_ENV: test
           TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
