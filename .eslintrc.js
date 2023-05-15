@@ -4,9 +4,8 @@ module.exports = {
     'commonjs': true,
     'es2021': true,
     'node': true,
-    'jest/globals': true,
   },
-  'extends': 'eslint:recommended',
+  'extends': ['eslint:recommended', 'plugin:jest/recommended'],
   'overrides': [
   ],
   'parserOptions': {
