@@ -21,3 +21,5 @@ jobs:
         run: npm run build:ui
       - name: Check style
         run: npm run lint
+      - name: Run Backend tests
+        run: npm run test
