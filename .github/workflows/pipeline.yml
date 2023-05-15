@@ -22,4 +22,7 @@ jobs:
       - name: Check style
         run: npm run lint
       - name: Run Backend tests
-        run: npm run test
+        run: test:api
+        env:
+          NODE_ENV: test
+          TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
