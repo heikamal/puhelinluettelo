@@ -1,34 +1,65 @@
 const mongoose = require('mongoose')
 const supertest = require('supertest')
 const app = require('../app')
+const helper = require('./test_helper')
 
 const api = supertest(app)
 const Person = require('../models/person')
 
-const initialPersons = [
-  {
-    name: 'Hagrid',
-    number: '040-4537654'
-  },
-  {
-    name: 'Testi Testinen',
-    number: '040-22334466'
-  },
-]
-
 beforeEach(async () => {
   await Person.deleteMany({})
-  let personObject = new Person(initialPersons[0])
-  await personObject.save()
-  personObject = new Person(initialPersons[1])
-  await personObject.save()
+  const personObjects = helper.initialPersons
+    .map(person => new Person(person))
+  const promiseArray = personObjects.map(person => person.save())
+  await Promise.all(promiseArray)
 })
 
-test('persons are returned as json', async () => {
+test('all persons are returned', async () => {
+  const response = await api.get('/api/persons')
+
+  expect(response.body).toHaveLength(helper.initialPersons.length)
+})
+
+test('a specific person is within the response', async () => {
+  const response = await api.get('/api/persons')
+
+  const contents = response.body.map(r => r.name)
+  expect(contents).toContain(
+    'Hagrid'
+  )
+})
+
+test('a valid number can be added', async () => {
+  const newPerson = {
+    name: 'Testi Testinen',
+    number: '050-4923742'
+  }
+
   await api
-    .get('/api/persons')
-    .expect(200)
+    .post('/api/persons')
+    .send(newPerson)
+    .expect(201)
     .expect('Content-Type', /application\/json/)
+
+  const personsAtEnd = await helper.personsInDb()
+
+  expect(personsAtEnd).toHaveLength(helper.initialPersons.length + 1)
+  const contents = personsAtEnd.map(n => n.name)
+  expect(contents).toContain(
+    'Testi Testinen'
+  )
+})
+
+test('a person without number is not added', async () => {
+  const newPerson = {
+    number: '050-4923742'
+  }
+
+  await api.post('/api/persons').send(newPerson).expect(400)
+
+  const personsAtEnd = await helper.personsInDb()
+
+  expect(personsAtEnd).toHaveLength(helper.initialPersons.length)
 })
 
 afterAll(async () => {

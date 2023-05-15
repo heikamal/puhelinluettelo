@@ -29,20 +29,20 @@ personsRouter.delete('/:id', (req, res, next) => {
 })
 
 // henkilön lisääminen
-personsRouter.post('/api/persons', (req, res, next) => {
+personsRouter.post('/', (req, res, next) => {
   const body = req.body
   const person = new Person({
     name: body.name,
     number: body.number,
   })
   person.save().then(savedPerson => {
-    res.json(savedPerson)
+    res.status(201).json(savedPerson)
   })
     .catch(error => next(error))
 })
 
 // henkilön numeron muokkaaminen
-personsRouter.put('/api/persons/:id', (req, res, next) => {
+personsRouter.put('/:id', (req, res, next) => {
   const { name, number } = req.body
   Person.findByIdAndUpdate(req.params.id,
     { name, number },
