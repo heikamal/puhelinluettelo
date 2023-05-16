@@ -32,6 +32,6 @@ jobs:
         uses: cypress-io/github-action@v5
         with:
           command: npm run test:e2e
-          start: cross-env NODE_ENV=production PORT=3002 MONGODB_URI=${{ secrets.MONGODB_URI }} node index.js
+          start: NODE_ENV=production PORT=3002 MONGODB_URI=${{ secrets.MONGODB_URI }} node index.js
           wait-on: http://localhost:3002
         
