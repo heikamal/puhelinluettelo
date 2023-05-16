@@ -30,8 +30,11 @@ jobs:
       - name: E2E tests
         id: cypress
         uses: cypress-io/github-action@v5
+        env:
+          PORT: 3002
+          MONGODB_URI: ${{secrets.MONGODB_URI}}
         with:
           command: npm run test:e2e
-          start: NODE_ENV=production PORT=3002 MONGODB_URI=${{ secrets.MONGODB_URI }} node index.js
+          start: npm run start:prod
           wait-on: http://localhost:3002
         
