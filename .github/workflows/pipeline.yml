@@ -35,7 +35,6 @@ jobs:
           MONGODB_URI: ${{secrets.MONGODB_URI}}
         with:
           command: npm run test:e2e
-          build: npm run build:ui
           start: npm run start:prod
-          wait-on: http://localhost:3002
+          wait-on: http://localhost:3002/
         
