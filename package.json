@@ -7,11 +7,14 @@
     "build:ui": "npm run clean:win && npm run clean:lin && cd frontend && npm install && npm run build && npm run move:win && npm run move:win",
     "clean:win": "node -e \"if (process.platform === 'win32') process.exit(1)\" || , if exist build rmdir /Q /S build",
     "clean:lin": "node -e \"if (process.platform !== 'win32') process.exit(1)\" || rm -rf build",
-    "start-prod": "cross-env NODE_ENV=production node index.js",
-    "dev": "cross-env NODE_ENV=development nodemon index.js",
+    "start:prod": "cross-env NODE_ENV=production node index.js",
+    "start:dev": "cross-env NODE_ENV=development nodemon index.js",
+    "start:test": "cross-env NODE_ENV=test node index.js",
     "test": "cross-env NODE_ENV=test jest --verbose --runInBand",
     "lint": "eslint .",
-    "test:api": "jest --verbose --runInBand"
+    "test:api": "jest --verbose --runInBand",
+    "test:e2e": "cypress run ./cypress/e2e",
+    "cypress:open": "cypress open"
   },
   "repository": {
     "type": "git",
