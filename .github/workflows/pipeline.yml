@@ -45,6 +45,30 @@ jobs:
         env:
           COMMIT_MESSAGES: ${{ join(github.event.commits.*.message) }}
         run: curl https://api.render.com/deploy/srv-${{ secrets.RENDER_SERVICE_ID }}?key=${{ secrets.RENDER_API_KEY }}
+      - name: Deployment successful
+        if: |
+          github.event_name == 'push'
+          && !contains(env.COMMIT_MESSAGES, '#skip')
+          && success()
+        uses: rjstone/discord-webhook-notify@v1
+        env:
+          COMMIT_MESSAGES: ${{ join(github.event.commits.*.message) }}
+        with:
+          severity: info
+          details: Deployment Succeeded!
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+      - name: Deployment has failed
+        if: |
+          github.event_name == 'push'
+          && !contains(env.COMMIT_MESSAGES, '#skip')
+          && failure()
+        uses: rjstone/discord-webhook-notify@v1
+        env:
+          COMMIT_MESSAGES: ${{ join(github.event.commits.*.message) }}
+        with:
+          severity: info
+          details: Deployment Succeeded!
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
   tag_release:
     needs: [simple_deployment_pipeline]
     runs-on: ubuntu-20.04
