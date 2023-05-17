@@ -35,7 +35,11 @@ app.get('/info', (req, res) => {
 })
 
 app.get('/version', (req, res) => {
-  res.send('version 4')
+  res.send('version 5')
+})
+
+app.get('/health', (req, res) => {
+  res.send('ok')
 })
 
 app.use(middleware.unknownEndpoint)
