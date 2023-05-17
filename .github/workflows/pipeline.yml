@@ -37,4 +37,12 @@ jobs:
           command: npm run test:e2e
           start: npm run start:prod
           wait-on: http://localhost:3002/info
+      - name: Deploy to Render
+        id: deploy
+        if: |
+          github.event_name == 'push'
+          && !contains(env.COMMIT_MESSAGES, '#skip')
+        env:
+          COMMIT_MESSAGES: ${{ join(github.event.commits.*.message) }}
+        run: curl https://api.render.com/deploy/srv-${{ secrets.RENDER_SERVICE_ID }}?key=${{ secrets.RENDER_API_KEY }}
         
