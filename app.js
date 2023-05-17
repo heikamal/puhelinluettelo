@@ -30,7 +30,7 @@ app.use('/api/persons', personsRouter)
 app.get('/info', (req, res) => {
   const date = new Date()
   Person.count({}).then(count => {
-    res.send(`Phonebook has info for ${count} people <br> ${date} (version: 1)`)
+    res.send(`Phonebook has info for ${count} people <br> ${date} (version: 2)`)
   })
 })
 
