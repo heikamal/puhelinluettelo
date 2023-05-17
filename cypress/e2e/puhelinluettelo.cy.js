@@ -11,4 +11,8 @@ describe('Phonebook', function() {
     cy.contains('Numbers')
   })
 
+  it('can view a name and a number from the database', function() {
+    cy.contains('Heikki Malkavaara 123-0513287')
+  })
+
 })
