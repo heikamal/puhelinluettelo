@@ -3,7 +3,7 @@
 describe('Frontend', function() {
   beforeEach(function() {
     cy.request('POST', 'http://localhost:3002/api/testing/reset')
-    cy.visit('http://localhost:3002/')
+    cy.visit('http://localhost:3003/')
   })
 
   it('front page can be opened', function() {
