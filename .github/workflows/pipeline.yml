@@ -27,8 +27,18 @@ jobs:
         env:
           NODE_ENV: test
           TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
+      - name: Run Frontend tests
+        id: frontend
+        uses: cypress-io/github-action@v5
+        env:
+          PORT: 3003
+          TEST_MONGODB_URI: ${{secrets.TEST_MONGODB_URI}}
+        with:
+          command: npm run test:ui
+          start: npm run start:test
+          wait-on: http://localhost:3003
       - name: E2E tests
-        id: cypress
+        id: e2e
         uses: cypress-io/github-action@v5
         env:
           PORT: 3002
