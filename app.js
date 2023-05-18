@@ -39,7 +39,7 @@ app.get('/info', (req, res) => {
 })
 
 app.get('/version', (req, res) => {
-  res.send('version 5')
+  res.send('version 6')
 })
 
 app.get('/health', (req, res) => {
